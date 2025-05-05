@@ -1,5 +1,12 @@
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import ChatOpenAI
+from langchain_openai import AzureChatOpenAI
+
+# Initialize Azure OpenAI Chat model
+llm = AzureChatOpenAI(
+    azure_deployment="gpt-4o-deploy",  # Your deployment name
+    temperature=0.7
+)
 
 reflection_prompt = ChatPromptTemplate.from_messages(
     [
@@ -25,6 +32,6 @@ generation_prompt = ChatPromptTemplate.from_messages(
 )
 
 
-llm = ChatOpenAI()
+#llm = ChatOpenAI()
 generate_chain = generation_prompt | llm
 reflect_chain = reflection_prompt | llm
