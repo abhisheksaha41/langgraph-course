@@ -13,8 +13,14 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import ChatOpenAI
 
 from schemas import AnswerQuestion, ReviseAnswer
+from langchain_openai import AzureChatOpenAI
 
-llm = ChatOpenAI(model="o4-mini")
+#llm = ChatOpenAI(model="o4-mini")
+llm = AzureChatOpenAI(
+    azure_deployment="gpt-4o-deploy",  # Your deployment name
+    temperature=0.7
+)
+
 parser = JsonOutputToolsParser(return_id=True)
 parser_pydantic = PydanticToolsParser(tools=[AnswerQuestion])
 
@@ -30,7 +36,7 @@ Current time: {time}
 3. Recommend search queries to research information and improve your answer.""",
         ),
         MessagesPlaceholder(variable_name="messages"),
-        ("system", "Answer the user's question above using the required format."),
+        ("system", "Answer the user's question above using the required format. You have to strictly follow the required format as instructed before"),
     ]
 ).partial(
     time=lambda: datetime.datetime.now().isoformat(),
