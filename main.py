@@ -40,7 +40,7 @@ if __name__ == "__main__":
     print("Hello ReAct with LangGraph")
     res = app.invoke(
         input={
-            "input": "what is the weather in sf? List it and then Triple it ",
+            "input": "How many runs Sachine tendulkar scored in ODI? List it and then Triple it ",
         }
     )
     print(res["agent_outcome"].return_values["output"])

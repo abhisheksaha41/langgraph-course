@@ -5,6 +5,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.tools import tool
 from langchain_openai.chat_models import ChatOpenAI
 from langchain_tavily import TavilySearch
+from langchain_openai import AzureChatOpenAI
 
 load_dotenv()
 
@@ -23,6 +24,10 @@ def triple(num: float) -> float:
 
 tools = [TavilySearch(max_results=1), triple]
 
-llm = ChatOpenAI(model="gpt-4o-mini")
+#llm = ChatOpenAI(model="gpt-4o-mini")
+llm = AzureChatOpenAI(
+azure_deployment="gpt-4o-deploy",  # Your deployment name
+temperature=0.7
+)
 
 react_agent_runnable = create_react_agent(llm, tools, react_prompt)
