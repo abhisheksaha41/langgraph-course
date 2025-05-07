@@ -48,7 +48,7 @@ first_responder_prompt_template = actor_prompt_template.partial(
 )
 
 first_responder = first_responder_prompt_template | llm.bind_tools(
-    tools=[AnswerQuestion], tool_choice="AnswerQuestion"
+    tools=[AnswerQuestion, ReviseAnswer], tool_choice="AnswerQuestion"
 )
 
 revise_instructions = """Revise your previous answer using the new information.
@@ -62,7 +62,7 @@ revise_instructions = """Revise your previous answer using the new information.
 
 revisor = actor_prompt_template.partial(
     first_instruction=revise_instructions
-) | llm.bind_tools(tools=[ReviseAnswer], tool_choice="ReviseAnswer")
+) | llm.bind_tools(tools=[AnswerQuestion, ReviseAnswer], tool_choice="ReviseAnswer")
 
 
 if __name__ == "__main__":
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     )
     chain = (
         first_responder_prompt_template
-        | llm.bind_tools(tools=[AnswerQuestion], tool_choice="AnswerQuestion")
+        | llm.bind_tools(tools=[AnswerQuestion,ReviseAnswer], tool_choice="AnswerQuestion")
         | parser_pydantic
     )
 
